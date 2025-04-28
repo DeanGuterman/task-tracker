@@ -10,12 +10,13 @@ public class Task {
     private String description;
     private TaskStatus status;
 
-    public Task(long id, LocalDate dueDate, String title, String description){
+
+    public Task(long id, LocalDate dueDate, String title, String description, TaskStatus status){
         this.id = id;
         this.dueDate = dueDate;
         this.title = title;
         this.description = description;
-        this.status = INPROGRESS;
+        this.status = status;
     }
 
     public long getId(){
