@@ -1,13 +1,19 @@
 package main.java.com.example.tasktracker;
 
+import javax.annotation.processing.Generated;
 import java.time.LocalDate;
-import java.util.concurrent.atomic.AtomicLong;
 
+@Entity //ive just copied this from you(chatgpt), not sure what it means - please explain and dont just show me code i wont understand without explaining. this is true for all the "@" lines
 public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final long id;
+
     private LocalDate dueDate;
     private String title;
     private String description;
+
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
 
