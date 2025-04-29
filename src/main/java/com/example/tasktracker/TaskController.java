@@ -1,7 +1,8 @@
 package com.example.tasktracker;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +17,23 @@ public class TaskController {
     }};
 
     @GetMapping("/tasks")
-    public List<Task> getTasks(){
-        return tasks;
+    public ResponseEntity<List<Task>> getTasks(){
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
+    @GetMapping("/tasks/{id}")
+    public ResponseEntity<Task> getTask(@PathVariable long id){
+        return tasks.stream()
+                .filter(task -> task.getId() == id)
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/tasks")
+    public Task addTask(@RequestBody Task task){
+        Task newTask = new Task(task.getDueDate(), task.getTitle(), task.getDescription(), task.getStatus());
+        tasks.add(newTask);
+        return newTask;
     }
 }

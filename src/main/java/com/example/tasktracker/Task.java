@@ -1,7 +1,6 @@
 package com.example.tasktracker;
 
 import jakarta.persistence.*;
-import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 
 @Entity
