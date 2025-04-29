@@ -38,4 +38,9 @@ public class TaskController {
         tasks.add(newTask);
         return newTask;
     }
+
+    @DeleteMapping("/tasks/{id}")
+    public boolean deleteTask(@PathVariable long id){
+        return tasks.removeIf(task -> task.getId() == id);
+    }
 }
