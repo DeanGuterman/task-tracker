@@ -1,4 +1,4 @@
-package main.java.com.example.tasktracker;
+package com.example.tasktracker;
 
 import javax.annotation.processing.Generated;
 import java.time.LocalDate;
