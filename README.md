@@ -1,4 +1,4 @@
-# 🗂 Task Tracker API (Spring Boot)
+# Task Tracker API (Spring Boot)
 
 This is a simple RESTful Task Tracker API built with Spring Boot.  
 It supports basic task management operations (CRUD) using an in-memory data structure, and it's structured for future integration with a real PostgreSQL database.
