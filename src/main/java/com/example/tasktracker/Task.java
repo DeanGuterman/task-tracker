@@ -1,13 +1,14 @@
 package com.example.tasktracker;
 
+import jakarta.persistence.*;
 import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 
-@Entity //ive just copied this from you(chatgpt), not sure what it means - please explain and dont just show me code i wont understand without explaining. this is true for all the "@" lines
+@Entity
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final long id;
+    private long id;
 
     private LocalDate dueDate;
     private String title;
@@ -16,9 +17,11 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
+    public Task(){
 
-    public Task(long id, LocalDate dueDate, String title, String description, TaskStatus status){
-        this.id = id;
+    }
+
+    public Task(LocalDate dueDate, String title, String description, TaskStatus status){
         this.dueDate = dueDate;
         this.title = title;
         this.description = description;
