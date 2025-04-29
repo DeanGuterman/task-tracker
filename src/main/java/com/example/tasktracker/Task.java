@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @Entity
 public class Task {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY) COMMENTED OUT WHILE I DONT HAVE A DATA BASE
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private LocalDate dueDate;
     private String title;

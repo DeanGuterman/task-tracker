@@ -13,36 +13,37 @@ import java.util.concurrent.atomic.AtomicLong;
 @RequestMapping("/tasks")
 public class TaskController {
 
-    private static final AtomicLong idCounter = new AtomicLong();
-    private static final List<Task> tasks = new ArrayList<>(){{
-        add(new Task(LocalDate.now(), "test title1", "test description1", TaskStatus.TODO, idCounter.getAndIncrement()));
-        add(new Task(LocalDate.now(), "test title2", "test description2", TaskStatus.IN_PROGRESS, idCounter.getAndIncrement()));
-    }};
+    private final TaskRepository repository;
+
+    public TaskController(TaskRepository repository){
+        this.repository = repository;
+    }
 
     @GetMapping
     public ResponseEntity<List<Task>> getTasks(){
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+        return ResponseEntity.ok(repository.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable long id){
-        return tasks.stream()
-                .filter(task -> task.getId() == id)
-                .findFirst()
+    public ResponseEntity<Task> getTask(@PathVariable Long id){
+        return repository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Task> addTask(@RequestBody Task task){
-        Task newTask = new Task(task.getDueDate(), task.getTitle(), task.getDescription(), task.getStatus(), idCounter.getAndIncrement());
-        tasks.add(newTask);
-        return new ResponseEntity<>(newTask, HttpStatus.CREATED);
+        Task savedTask = repository.save(task);
+        return new ResponseEntity<>(savedTask, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable long id){
-        boolean removed = tasks.removeIf(task -> task.getId() == id);
-        return removed ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id){
+        if (repository.existsById(id)){
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
