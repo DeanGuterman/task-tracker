@@ -2,11 +2,12 @@ package com.example.tasktracker;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) COMMENTED OUT WHILE I DONT HAVE A DATA BASE
     private long id;
 
     private LocalDate dueDate;
@@ -20,11 +21,12 @@ public class Task {
 
     }
 
-    public Task(LocalDate dueDate, String title, String description, TaskStatus status){
+    public Task(LocalDate dueDate, String title, String description, TaskStatus status, long id){
         this.dueDate = dueDate;
         this.title = title;
         this.description = description;
         this.status = status;
+        this.id = id;
     }
 
     public long getId(){
