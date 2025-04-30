@@ -2,7 +2,6 @@ package com.example.tasktracker;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
 public class Task {
