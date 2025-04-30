@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -35,6 +36,20 @@ public class TaskController {
     public ResponseEntity<Task> addTask(@RequestBody Task task){
         Task savedTask = repository.save(task);
         return new ResponseEntity<>(savedTask, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task updatedTaskData){
+        return repository.findById(id)
+                .map(existingTask -> {
+                    existingTask.setTitle(updatedTaskData.getTitle());
+                    existingTask.setDescription(updatedTaskData.getDescription());
+                    existingTask.setDueDate(updatedTaskData.getDueDate());
+                    existingTask.setStatus(updatedTaskData.getStatus());
+                    Task saved = repository.save(existingTask);
+                    return new ResponseEntity<>(saved, HttpStatus.OK);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
